@@ -1,0 +1,10 @@
+const canvas = document.createElement("canvas");
+const context = canvas.getContext("2d");
+const imageElement = document.getElementsByTagName("img")[0];
+let base64String;
+canvas.height = imageElement.naturalHeight;
+canvas.width = imageElement.naturalWidth;
+context.drawImage(imageElement, 0, 0, canvas.width, canvas.height);
+base64String = canvas.toDataURL("image/jpeg");
+canvas.remove();
+return base64String;

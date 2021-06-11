@@ -1,0 +1,104 @@
+<div id="app">
+    <div class="wrapper">
+        <div class="form-wrapper">
+            <form method="POST" action="/process?_method=POST">
+                <div class="row mb-3">
+                    <label for="comicLink" class="col-sm-3 col-form-label">Comic Link</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="comicLink" class="form-control" id="comicLink" v-model="comicLink">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="comicName" class="col-sm-3 col-form-label">Comic Name</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="comicName" class="form-control" id="comicName"
+                            placeholder="Ex: Huyễn Ma Chi Chiến" v-model="comicName">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="selectorImage" class="col-sm-3 col-form-label">Selector Image</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="selectorImage" class="form-control" id="selectorImage"
+                            v-model="selectorImage" placeholder="Ex: .comicDetail2 img">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="selectorListChapter" class="col-sm-3 col-form-label">Selector List Chapter</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="selectorListChapter" class="form-control" id="selectorListChapter"
+                            v-model="selectorListChapter" placeholder="Ex: .list-chapter">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary" @click="onClick">Submit</button>
+            </form>
+            <div v-bind:class="['loading', {'loading--visible': isProcessing}]">
+                <div class="loading__overlay"></div>
+                <div class="loading__content">
+                    <h4 class="loading__text">Loading...</h4>
+                </div>
+            </div>
+            <div class="toast-container position-absolute top-0 end-0">
+                <div ref="toast" class="toast hide align-items-center text-white bg-primary border-0"
+                    data-bs-delay="3000" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            Process successfully!
+                        </div>
+                        <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"
+                            aria-label="Close"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+
+<script type="module">
+    import { Toast } from '../assets/vendors/bootstrap5/bootstrap.esm.js'
+    const app = new Vue({
+        el: "#app",
+        data: {
+            helloMessage: "hello message",
+            comicLink: "",
+            selectorImage: "",
+            selectorListChapter: "",
+            comicName: "",
+            isProcessing: false,
+        },
+        methods: {
+            async onClick(e) {
+                try {
+                    e.preventDefault();
+                    this.isProcessing = true;
+                    const response = await fetch('/process', {
+                        body: JSON.stringify({
+                            comicLink: this.comicLink,
+                            selectorImage: this.selectorImage,
+                            selectorListChapter: this.selectorListChapter,
+                            comicName: this.comicName
+                        }),
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json; charset=UTF-8"
+                        }
+                    })
+                    const result = await response.json();
+                    if (result.message) {
+                        const toastEl = this.$refs.toast;
+                        const toast = new Toast(toastEl, {
+                            delay: 3000
+                        })
+                        toast.show();
+                    }
+                } catch (err) {
+                    console.log(err)
+                } finally {
+                    this.isProcessing = false
+
+                }
+            }
+        }
+    })
+</script>
