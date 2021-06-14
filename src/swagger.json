@@ -7,12 +7,12 @@
     },
     "servers": [
         {
-            "url": "http://localhost:3000",
-            "description": "Local environment"
-        },
-        {
             "url": "https://thawing-falls-76834.herokuapp.com",
             "description": "Production environment"
+        },
+        {
+            "url": "http://localhost:3000",
+            "description": "Local environment"
         }
     ],
     "paths": {
