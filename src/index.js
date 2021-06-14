@@ -157,8 +157,9 @@ app.delete('/files-folders', async (req, res) => {
             recursive: true
         }
         for (const index in files) {
-            if (fs.existsSync(files[index])) {
-                await fsPromise.rm(files[index], removeOptions)
+            const fileUrl = path.join(rootPath, "images", files[index])
+            if (fs.existsSync(fileUrl)) {
+                await fsPromise.rm(fileUrl, removeOptions)
             }
         }
 
