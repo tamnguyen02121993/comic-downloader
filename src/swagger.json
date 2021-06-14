@@ -1,0 +1,290 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Sample API",
+        "description": "Sample API for download images",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:3000",
+            "description": ""
+        }
+    ],
+    "paths": {
+        "/files-folders": {
+            "get": {
+                "summary": "Get all files or folders",
+                "description": "Return a list of files and folders.",
+                "responses": {
+                    "200": {
+                        "description": "An array of files and folders path",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Remove files or folders",
+                "description": "",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "array",
+                                "item": {
+                                    "type": "string"
+                                }
+                            },
+                            "example": [
+                                "tan-tac-long-ho-mon-from-1-to-2",
+                                "tan-tac-long-ho-mon-from-1-to-2.zip"
+                            ]
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Return message status",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/download-images": {
+            "post": {
+                "summary": "Download images using partern on one page.",
+                "description": "Return a zip file contain all images downloaded.",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "Object",
+                                "properties": {
+                                    "link": {
+                                        "type": "string"
+                                    },
+                                    "imageSelector": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "example": {
+                                "link": "https://sexyforever.vn/collections/sleepwear",
+                                "imageSelector": ".product-img > a > img"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "A zip file contain all images downloaded",
+                        "content": {
+                            "application/zip": {
+                                "schema": {
+                                    "type": "string",
+                                    "format": "binary"
+                                }
+                            }
+                        },
+                        "headers": {
+                            "Content-Disposition": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/download-images-multipage": {
+            "post": {
+                "summary": "Download images using partern on multipage.",
+                "description": "Return a zip file contain all images downloaded.",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "Object",
+                                "properties": {
+                                    "link": {
+                                        "type": "string"
+                                    },
+                                    "imageSelector": {
+                                        "type": "string"
+                                    },
+                                    "pageParamName": {
+                                        "type": "string"
+                                    },
+                                    "pageStart": {
+                                        "type": "integer"
+                                    },
+                                    "pageEnd": {
+                                        "type": "integer"
+                                    }
+                                }
+                            },
+                            "example": {
+                                "link": "https://sexyforever.vn/collections/sleepwear",
+                                "imageSelector": ".product-img > a > img",
+                                "pageParamName": "page",
+                                "pageStart": 1,
+                                "pageEnd": 5
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "A zip file contain all images downloaded",
+                        "content": {
+                            "application/zip": {
+                                "schema": {
+                                    "type": "string",
+                                    "format": "binary"
+                                }
+                            }
+                        },
+                        "headers": {
+                            "Content-Disposition": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/download-all-chapter-comic": {
+            "post": {
+                "summary": "Download all chapter comic.",
+                "description": "Return a zip file contain all images downloaded.",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "Object",
+                                "properties": {
+                                    "comicLink": {
+                                        "type": "string"
+                                    },
+                                    "comicName": {
+                                        "type": "string"
+                                    },
+                                    "imageSelector": {
+                                        "type": "string"
+                                    },
+                                    "listChapterSelector": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "example": {
+                                "comicLink": "https://beeng.org/tan-tac-long-ho-mon-157/chapter-1-908200.html",
+                                "comicName": "tan-tac-long-ho-mon",
+                                "imageSelector": ".comicDetail2 > img",
+                                "listChapterSelector": ".contentPage .selectChapter > .list-chapter"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "A zip file contain all images downloaded",
+                        "content": {
+                            "application/zip": {
+                                "schema": {
+                                    "type": "string",
+                                    "format": "binary"
+                                }
+                            }
+                        },
+                        "headers": {
+                            "Content-Disposition": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/download-multi-chapter-comic": {
+            "post": {
+                "summary": "Download multi chapter comic.",
+                "description": "Return a zip file contain all images downloaded.",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "Object",
+                                "properties": {
+                                    "comicLink": {
+                                        "type": "string"
+                                    },
+                                    "comicName": {
+                                        "type": "string"
+                                    },
+                                    "imageSelector": {
+                                        "type": "string"
+                                    },
+                                    "listChapterSelector": {
+                                        "type": "string"
+                                    },
+                                    "start": {
+                                        "type": "integer"
+                                    },
+                                    "end": {
+                                        "type": "integer"
+                                    }
+                                }
+                            },
+                            "example": {
+                                "comicLink": "https://beeng.org/tan-tac-long-ho-mon-157/chapter-1-908200.html",
+                                "comicName": "tan-tac-long-ho-mon",
+                                "imageSelector": ".comicDetail2 > img",
+                                "listChapterSelector": ".contentPage .selectChapter > .list-chapter",
+                                "start": 1,
+                                "end": 2
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "A zip file contain all images downloaded",
+                        "content": {
+                            "application/zip": {
+                                "schema": {
+                                    "type": "string",
+                                    "format": "binary"
+                                }
+                            }
+                        },
+                        "headers": {
+                            "Content-Disposition": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
