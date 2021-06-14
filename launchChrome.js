@@ -14,6 +14,7 @@ module.exports = {
         options.addArguments("--headless");
         options.addArguments("--disable-gpu");
         options.addArguments("--no-sandbox");
+        options.addArguments('--disable-dev-shm-usage');
 
 
         const driver = new Builder().forBrowser("chrome")
