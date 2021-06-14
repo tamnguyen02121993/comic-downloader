@@ -7,13 +7,18 @@ const path = require("path");
 module.exports = {
     async init(link) {
         let options = new chrome.Options();
+        options.setChromeBinaryPath(process.env.CHROME_BINARY_PATH);
+        let serviceBuilder = new chrome.ServiceBuilder(process.env.CHROME_DRIVER_PATH)
+
         //Below arguments are critical for Heroku deployment
         options.addArguments("--headless");
         options.addArguments("--disable-gpu");
         options.addArguments("--no-sandbox");
 
 
-        const driver = new Builder().forBrowser("chrome").setChromeOptions(options).build();
+        const driver = new Builder().forBrowser("chrome")
+        .setChromeOptions(options)
+        .setChromeService(serviceBuilder).build();
         await driver.get(link);
         const mainWindow = await driver.getWindowHandle();
         return {driver, mainWindow}
