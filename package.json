@@ -4,7 +4,8 @@
   "description": "Practice deploy nodejs app to heroku host",
   "main": "index.js",
   "scripts": {
-    "serve": "nodemon --inspect src/index.js"
+    "serve": "nodemon --inspect src/index.js",
+    "start": "node src/index.js"
   },
   "author": "Tâm Nguyễn",
   "license": "ISC",
